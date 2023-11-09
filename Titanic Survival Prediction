@@ -1,0 +1,38 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Step 1: Load the data
+data = pd.read_csv('movie_data.csv')
+
+# Step 2: Data analysis and preprocessing
+# For simplicity, let's assume the data is clean and doesn't require extensive preprocessing.
+
+# Step 3: Feature engineering
+# For simplicity, let's consider only a few features for now.
+features = ['Genre', 'Director', 'Actor_1', 'Actor_2', 'Actor_3']
+target = 'Rating'
+
+# Convert categorical features into numerical using one-hot encoding
+data_encoded = pd.get_dummies(data[features])
+
+# Step 4: Train-test split
+X_train, X_test, y_train, y_test = train_test_split(data_encoded, data[target], test_size=0.2, random_state=42)
+
+# Step 5: Model training
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Step 6: Model evaluation
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+print(f'Mean Squared Error: {mse}')
+
+# Step 7: Pictorial representation
+plt.scatter(y_test, y_pred)
+plt.xlabel("Actual Ratings")
+plt.ylabel("Predicted Ratings")
+plt.title("Actual vs. Predicted Ratings")
+plt.show()
